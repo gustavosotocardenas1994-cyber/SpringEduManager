@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title> 🎓 Sistema de cursos - Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-brand">
+        <span class="brand-icon">🎓</span>
+        <a th:href="@{/}" class="brand-name">Sistema de cursos</a>
+    </div>
+    <div class="navbar-menu">
+        <a th:href="@{/cursos}" class="nav-link">Cursos</a>
+        <a th:href="@{/estudiantes}" class="nav-link">Estudiantes</a>
+    </div>
+    <div class="navbar-auth">
+        <span sec:authorize="isAuthenticated()" class="user-info">
+            👤 <span sec:authentication="name"></span>
+            <span sec:authorize="hasRole('ADMIN')" class="badge badge-admin">ADMIN</span>
+            <span sec:authorize="hasRole('EMPLEADO')" class="badge badge-empleado">EMPLEADO</span>
+        </span>
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline">
+            <button type="submit" class="btn-logout">Salir</button>
+        </form>
+        <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn-login">Ingresar</a>
+    </div>
+</nav>
+
+<main class="main-content">
+    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">🎓 Sistema de Gestión Académica</h1>
+            <p class="hero-subtitle">Administra cursos y estudiantes de forma eficiente</p>
+            <a th:href="@{/cursos}" class="btn btn-primary btn-lg">Ver Cursos</a>
+        </div>
+    </section>
+
+    <!-- STATS (solo para usuarios autenticados) -->
+    <section class="stats-section" sec:authorize="isAuthenticated()">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-number" th:text="${totalCursos}">0</div>
+                <div class="stat-label">Cursos</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🎓</div>
+                <div class="stat-number" th:text="${totalEstudiantes}">0</div>
+                <div class="stat-label">Estudiantes</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ACCESO RÁPIDO -->
+    <section class="quick-access" sec:authorize="isAuthenticated()">
+        <h2 class="section-title">Acceso Rápido</h2>
+        <div class="quick-grid">
+            <a th:href="@{/cursos}" class="quick-card">
+                <span class="quick-icon">📚</span>
+                <span class="quick-label">Ver Cursos</span>
+            </a>
+
+            <a th:href="@{/cursos/nuevo}" class="quick-card">
+                <span class="quick-icon">➕</span>
+                <span class="quick-label">Nuevo Curso</span>
+            </a>
+
+            <a th:href="@{/estudiantes}" class="quick-card">
+                <span class="quick-icon">👨‍🎓</span>
+                <span class="quick-label">Ver Estudiantes</span>
+            </a>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>Sistema de Cursos &copy; 2026</p>
+</footer>
+
+</body>
+</html>

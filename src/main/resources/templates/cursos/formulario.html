@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Formulario Curso</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+
+<form th:action="@{/cursos/guardar}" th:object="${curso}" method="post">
+
+  <input type="hidden" th:field="*{id}"/>
+
+  <label>Nombre:</label>
+  <input type="text" th:field="*{nombre}"/>
+  <br>
+
+  <label>Descripción:</label>
+  <input type="text" th:field="*{descripcion}"/>
+  <br>
+
+  <button type="submit">Guardar</button>
+
+</form>
+
+<a th:href="@{/cursos}">Volver</a>
+
+</body>
+</html>

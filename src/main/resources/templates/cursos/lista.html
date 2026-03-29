@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>📚 Cursos</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- Fuentes (igual que login) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- TITULO -->
+    <h1 class="page-title">📚 Lista de Cursos</h1>
+
+    <!-- BUSCADOR -->
+    <form th:action="@{/cursos}" method="get" class="search-box">
+        <input type="text" name="buscar" placeholder="Buscar curso..." th:value="${buscar}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- BOTON NUEVO -->
+    <a th:href="@{/cursos/nuevo}" class="btn btn-primary btn-new">➕ Nuevo Curso</a>
+
+    <!-- TABLA -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="curso : ${cursos}">
+            <td th:text="${curso.id}"></td>
+            <td th:text="${curso.nombre}"></td>
+            <td th:text="${curso.descripcion}"></td>
+            <td>
+                <a th:href="@{'/cursos/editar/' + ${curso.id}}" class="btn btn-edit">
+                    ✏️ Editar
+                </a>
+
+                <a th:href="@{'/cursos/eliminar/' + ${curso.id}}"
+                   class="btn btn-delete"
+                   onclick="return confirm('¿Seguro que quieres eliminar este curso?')">
+                    🗑️ Eliminar
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<a th:href="@{/}">Volver a menu principal</a>
+
+</body>
+</html>

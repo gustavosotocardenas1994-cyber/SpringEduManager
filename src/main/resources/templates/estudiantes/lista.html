@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>👨‍🎓 Estudiantes</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- TITULO -->
+    <h1 class="page-title">👨‍🎓 Lista de Estudiantes</h1>
+
+    <!-- BUSCADOR -->
+    <form th:action="@{/estudiantes}" method="get" class="search-box">
+        <input type="text" name="buscar" placeholder="Buscar estudiante..." th:value="${buscar}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- BOTON NUEVO -->
+    <a th:href="@{/estudiantes/nuevo}" class="btn btn-primary btn-new">
+        ➕ Nuevo Estudiante
+    </a>
+
+    <!-- TABLA -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Cursos</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="estudiante : ${estudiantes}">
+            <td th:text="${estudiante.id}"></td>
+            <td th:text="${estudiante.nombre}"></td>
+            <td th:text="${estudiante.email}"></td>
+
+            <!-- RELACIÓN CURSOS -->
+            <td>
+                <span th:each="c : ${estudiante.cursos}"
+                      class="badge-curso"
+                      th:text="${c.nombre}">
+                </span>
+            </td>
+
+            <td>
+                <a th:href="@{'/estudiantes/editar/' + ${estudiante.id}}" class="btn btn-edit">
+                    ✏️ Editar
+                </a>
+
+                <a th:href="@{'/estudiantes/eliminar/' + ${estudiante.id}}"
+                   class="btn btn-delete"
+                   onclick="return confirm('¿Seguro que quieres eliminar este estudiante?')">
+                    🗑️ Eliminar
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<a th:href="@{/}">Volver a menu principal</a>
+
+</body>
+</html>
